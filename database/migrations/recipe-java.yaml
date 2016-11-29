@@ -1,0 +1,196 @@
+@puertos@
+network privada ()
+@configuracion@
+
+configure central (
+@begin
+---
+  - vars:
+      @cuentas@
+      home: /home/ubuntu/
+      baseurl: https://master-class:master-password@bitbucket.org/phantro/base-java.git
+      ipmaster: localhost
+      jenkinsnode: /home/ubuntu/node-jenkins
+      jenkinsnodeurl: https://master-class:master-password@bitbucket.org/phantro/node-jenkins.git
+      jenkinsserver : https://master-class:master-password@bitbucket.org/phantro/jenkins-server.git
+      jenkins: /home/ubuntu/jenkins-server
+      userproyect : proyect-user.sh
+
+    tasks:
+    - name: Install Git 0f485338872
+      apt: name=git update_cache=yes state=latest
+
+    - name: Update repository Node.js
+      shell: 'curl -sL https://deb.nodesource.com/setup_4.x | sudo -E bash -'
+
+    - name: Install Node.js
+      apt: name=nodejs update_cache=yes state=latest
+
+    - name: Install Dependency Node.js
+      apt: name=build-essential update_cache=yes state=latest
+
+    - name: Create user accounts student
+      user: name={{ item.name }} password={{ item.pw }} shell=/bin/bash
+      with_items: accounts
+
+    - name: Modify $HOME permissions student
+      file: path=/home/{{ item.name }} state=directory owner={{ item.name }} group={{ item.name }} mode=0700
+      with_items: accounts
+
+    - name: Create user admin
+      user: name={{ item.name }} password={{ item.pw }} shell=/bin/bash
+      with_items: admin
+
+    - name: Modify $HOME permissions admin
+      file: path=/home/{{ item.name }} state=directory owner={{ item.name }} group={{ item.name }} mode=0700
+      with_items: admin
+
+    - lineinfile: dest=/etc/ssh/sshd_config regexp="PasswordAuthentication no" line="PasswordAuthentication no" state=absent
+    - lineinfile: dest=/etc/ssh/sshd_config regexp="PasswordAuthentication yes" line="PasswordAuthentication yes" state=present
+    - service: name=ssh state=restarted
+
+    - name: Add sudo admin
+      shell: 'adduser {{ item.name }} sudo'
+      with_items: admin
+
+    - name: Install Curl
+      apt: name=curl update_cache=yes state=latest
+    - name: Install Openssh
+      apt: name=openssh-server update_cache=yes state=latest
+    - name: Install Certificates
+      apt: name=ca-certificates update_cache=yes state=latest
+    - name: Update repository sh
+      shell: 'curl -sS https://packages.gitlab.com/install/repositories/gitlab/gitlab-ce/script.deb.sh | sudo bash'
+    - name: Install Gitlab
+      apt: name=gitlab-ce update_cache=yes state=latest
+
+    - name: Initial Gitlab
+      shell: 'gitlab-ctl reconfigure'
+
+    - name: App | Cloning repos + backup proyect
+      git: repo={{ jenkinsnodeurl }}
+           dest={{ item.dest }}
+           accept_hostkey=yes
+           force=yes
+           recursive=no
+      with_items:
+        -
+          dest: "{{ jenkinsnode }}"
+          repo: PrimaryRepo
+
+    - copy: dest={{ jenkinsnode }}/user.json content='@cuentasUsuarioJson@'
+
+    - copy: dest={{ jenkinsnode }}/repository.json content='@cuentasGit@'
+
+    - name: Add repo for java 8 0f168424895
+      apt_repository: repo='ppa:openjdk-r/ppa' state=present
+
+    - name: Install java 8
+      apt: name=openjdk-8-jdk state=latest update-cache=yes force=yes
+      sudo: yes
+
+    - lineinfile: dest=/etc/bash.bashrc regexp="export JAVA_HOME=/usr/lib/jvm/java-8-oracle/" line="export JAVA_HOME=/usr/lib/jvm/java-8-oracle/" create=yes
+
+    - name: App | Cloning repos + submodules + jenkins 0f452458482
+      git: repo={{jenkinsserver}}
+           dest={{ item.dest }}
+           accept_hostkey=yes
+           force=yes
+           recursive=no
+      with_items:
+        -
+          dest: "{{ jenkins }}"
+          repo: PrimaryRepo
+
+    - name: Download Maven
+      get_url: url=http://archive.apache.org/dist/maven/binaries/apache-maven-3.0.4-bin.tar.gz dest={{home}}
+
+    - name: Unarchive maven
+      unarchive: src={{home}}apache-maven-3.0.4-bin.tar.gz dest={{home}} copy=no
+
+    - name: Delete Apache.tar.gz
+      file: path={{home}}apache-maven-3.0.4-bin.tar.gz state=absent recurse=no
+
+    - command: mv {{home}}apache-maven-3.0.4 /usr/local
+
+    - name: Run Maven
+      shell: 'sudo ln -s /usr/local/apache-maven-3.0.4/bin/mvn /usr/bin/mvn'
+
+    - name: Download Sonar
+      get_url: url=https://sonarsource.bintray.com/Distribution/sonarqube/sonarqube-4.5.7.zip dest={{home}}
+
+    - name: Install unzip
+      apt: pkg=unzip state=latest update_cache=yes
+
+    - name: Unarchive Sonar
+      unarchive: src={{home}}sonarqube-4.5.7.zip dest={{home}} copy=no
+
+    - name: Delete Sonar.zip
+      file: path={{home}}sonarqube-4.5.7.zip state=absent recurse=no
+
+    - name: Run Sonar
+      shell: 'cd {{home}}sonarqube-4.5.7 && bin/linux-x86-64/sonar.sh console &'
+
+    - command: /bin/sleep 180
+
+    - name: Run Jenkins
+      shell: '{{jenkins}}/jenkins.sh start'
+
+    - command: /bin/sleep 180
+
+    - name: Install codeblocks
+      apt: name=codeblocks update_cache=yes state=latest
+
+    - name: Install lxde
+      apt: name=lxde update_cache=yes state=latest
+
+    - name: Run lxdm
+      shell: 'start lxdm'
+
+    - name: Install xrdp
+      apt: name=xrdp update_cache=yes state=latest
+
+    - name: Wait for Jenkins to start up before proceeding.
+      shell: "curl -D - --silent --max-time 5 http://{{ ipmaster }}:8089/cli/"
+      register: result
+      until: (result.stdout.find("403 Forbidden") != -1) or (result.stdout.find("200 OK") != -1) and (result.stdout.find("Please wait while") == -1)
+      retries: "60"
+      delay: "5"
+      changed_when: false
+
+    - name: Wait for Gitlab to start up before proceeding.
+      shell: "curl -D - --silent --max-time 5 http://{{ ipmaster }}/api/v3/user"
+      register: result
+      until: (result.stdout.find("403 Forbidden") != -1) or (result.stdout.find("401 Unauthorized") != -1) and (result.stdout.find("Please wait while") == -1)
+      retries: "60"
+      delay: "5"
+      changed_when: false
+
+    - name: Wait for Sonar to start up before proceeding.
+      shell: "curl -D - --silent --max-time 5 http://{{ ipmaster }}:9000/"
+      register: result
+      until: (result.stdout.find("403 Forbidden") != -1) or (result.stdout.find("200 OK") != -1) and (result.stdout.find("Please wait while") == -1)
+      retries: "60"
+      delay: "5"
+      changed_when: false
+
+    - name: Update pluguin Jenkins and Proyect Gitlab
+      shell: 'sh {{jenkinsnode}}/ejecutar.sh'
+
+    - copy: dest=/home/{{ item.name }}/{{ userproyect }} content='@cuentasUsuarioProyect@' mode=0755
+      with_items: accounts
+
+    - name: Clone student repository
+      shell: 'sh /home/{{ item.name }}/{{ userproyect }}'
+      with_items: accounts
+
+    - name: Modify $HOME permissions student repository
+      file: path=/home/{{ item.name }} state=directory owner={{ item.name }} group={{ item.name }} mode=0700 recurse=yes
+      with_items: accounts
+
+    - name: Finish 0f412483458
+      shell: 'echo "Finish Despliegue"'
+@end
+)
+
+deploy central
