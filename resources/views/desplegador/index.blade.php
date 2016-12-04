@@ -137,19 +137,19 @@
                             <p>Eliges el tipo de instancias a desplegar para la instancia central y las instancias para alumnos</p>
                             <h3>Selecciona</h3>
                             <ul>
-                                <li>Seleciona el el servicio cloud a utilizar</li>
-                                <li>El tipo de Instancias que desplegaras</li>
-                                <li>El lenguaje de Programación</li>
-                                <li>Cuentas de Administrador</li>
-                                <li>Cuentas de los Alumnos</li>
-                                <li>Cantidad de maquina a desplegar</li>
+                                <li>Seleciona el servicio Cloud a utilizar</li>
+                                <li>El tipo de instancias que desplegaras</li>
+                                <li>El lenguaje de programación entre C y Java</li>
+                                <li>Cuentas de administrador</li>
+                                <li>Cuentas de los alumnos</li>
+                                <li>Cantidad de instancias a desplegar</li>
                                 <li>Despliega</li>
                             </ul>
                         </div>
 
                         <div class="box">
                             <h3>Detalle</h3>
-                            <p>Visualizar las cuentas creadas y los repositorios reados en las maquinas desplegadas de
+                            <p>Visualizar las cuentas creadas y los repositorios creados en las instancias desplegadas de
                                 los distintos servicios desplegados</p>
                         </div>
                     </div>
@@ -164,10 +164,10 @@
                     </div>
                     <div class="six-col last-col">
                         <h2>Jenkins</h2>
-                        <p>La base de Jenkins son las tareas, donde indicamos qué es lo que hay que hacer en un build.
+                        <p>La base de Jenkins son los job, donde indicamos qué es lo que hay que hacer en un build.
                             Por ejemplo, podríamos programar una tarea en la que se compruebe el repositorio de control
                             de versiones cada cierto tiempo, permite realizar la evaluacion del código realizado por
-                            el alumno.
+                            el Alumno.
                         </p>
                         <p><a href="/begin">Quieres comenzar a usar este servicio&nbsp;›</a></p>
                     </div>

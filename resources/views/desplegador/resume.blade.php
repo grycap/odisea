@@ -88,7 +88,7 @@
     <div id="env-size-display-container">
         <div class="env-size-display">
             <ul>
-                <li class="tab active"><a data-view="service"><span>{{$central}}</span><span> Maquina Central</span></a>
+                <li class="tab active"><a data-view="service"><span>{{$central}}</span><span> Instancia Central</span></a>
                 </li>
                 <li class="spacer">|</li>
                 <li class="tab"><a data-view="machine"><span>{{$student}}</span><span> M. Alumno</span></a></li>
@@ -126,7 +126,7 @@
                                     style="padding-left: 20px;">
                                     <img src="/desplegador/svg/icon-central.svg" class="inspector-header__service-icon"
                                          style="margin-right: 5px;">
-                                    <span class="overview-action__title">Maquina Central</span><span
+                                    <span class="overview-action__title">Instancia Central</span><span
                                             class="overview-action__link hidden"></span><span
                                             class="overview-action__value overview-action__value--type-uncommitted">{{$central}}</span>
                                 </li>

@@ -87,10 +87,10 @@
     <div id="env-size-display-container">
         <div class="env-size-display">
             <ul>
-                <li class="tab"><a data-view="service"><span>1</span><span id="message-central"> Maquina Central</span></a>
+                <li class="tab"><a data-view="service"><span>1</span><span id="message-central"> Instancia Central</span></a>
                 </li>
                 <li class="spacer">|</li>
-                <li class="tab active"><a data-view="machine"><span id="count-machine-student">0</span><span> M. Alumnos</span></a>
+                <li class="tab active"><a data-view="machine"><span id="count-machine-student">0</span><span> I. Alumnos</span></a>
                 </li>
             </ul>
         </div>
@@ -177,7 +177,7 @@
                                         fillrule="evenodd" class="inspector-list__header-back-image"
                                         d="M 1.29 10.18C 1.84 11.01 2.46 11.86 3.15 12.74 3.84 13.62 4.58 14.48 5.37 15.34 5.58 15.56 5.79 15.78 6 16 6 16 6 13.53 6 13.53 5.57 13.05 5.14 12.54 4.73 12.02 4.25 11.41 3.8 10.79 3.37 10.15 2.95 9.51 2.43 8.61 2.1 8 2.43 7.39 2.95 6.49 3.37 5.85 3.8 5.22 4.25 4.59 4.73 3.98 5.14 3.46 5.57 2.95 6 2.47 6 2.47 6 0 6 0 5.79 0.22 5.58 0.44 5.37 0.67 4.58 1.52 3.84 2.38 3.15 3.26 2.46 4.14 1.84 4.99 1.29 5.82 0.75 6.65 0.32 7.38 0 8 0.32 8.62 0.75 9.35 1.29 10.18"
                                         fill="rgb(131,147,149)"></path></svg></span><span
-                                class="inspector-header__title">Maquinas a Desplegar</span>
+                                class="inspector-header__title">Instancia a Desplegar</span>
                         <span class="inspector-header__icon-container">
                     <img src="/desplegador/svg/icon-git.svg" class="inspector-header__service-icon">
                     </span>
@@ -188,13 +188,13 @@
                     <div class="inspector-content">
                         <div class="service-overview">
                             <ul class="service-overview__actions">
-                                <li class="overview-action" title="Maquinas para Alumnos" tabindex="0" role="button"
+                                <li class="overview-action" title="Instancia para Alumnos" tabindex="0" role="button"
                                     id="li-machine-student">
                                 <span class="overview-action__icon"><svg
                                             class="svg-icon" viewBox="0 0 16 16" style="width:16px;height:16px;"><use
                                                 xmlns:xlink="http://www.w3.org/1999/xlink"
                                                 xlink:href="#units"></use></svg></span>
-                                    <span class="overview-action__title">Maquinas para Alumnos</span><span
+                                    <span class="overview-action__title">Instancia para Alumnos</span><span
                                             class="overview-action__link hidden"></span><span
                                             class="overview-action__value overview-action__value--type-all"
                                             id="count-student">0</span>
@@ -208,18 +208,9 @@
                                               style="width:16px;height:16px;"><use
                                                   xmlns:xlink="http://www.w3.org/1999/xlink"
                                                   xlink:href="#configure"></use></svg></span>
-                                    <span class="overview-action__title">Maquina Central</span><span
+                                    <span class="overview-action__title">Instancia Central</span><span
                                             class="overview-action__link hidden"></span><span
                                             class="overview-action__value overview-action__value--type-uncommitted">1</span>
-                                </li>
-                                <li class="overview-action" title="Puertos" tabindex="0" role="button"><span
-                                            class="overview-action__icon"><svg
-                                                class="svg-icon" viewBox="0 0 16 16" style="width:16px;height:16px;"><use
-                                                    xmlns:xlink="http://www.w3.org/1999/xlink"
-                                                    xlink:href="#exposed_16"></use></svg></span><span
-                                            class="overview-action__title">Puertos</span><span
-                                            class="overview-action__link hidden"></span><span
-                                            class="overview-action__value">0</span>
                                 </li>
                             </ul>
 
@@ -227,7 +218,7 @@
                         <div class="inspector-expose">
                             <div class="inspector-expose__control">
                                 <div class="boolean-config">
-                                    <div class="boolean-config--title">Ip Publica
+                                    <div class="boolean-config--title">IP Pública
                                     </div>
                                     <div class="boolean-config--toggle"><input
                                                 type="checkbox" id="expose-toggle" checked=""
@@ -238,14 +229,13 @@
                                     <div class="boolean-config--description"></div>
                                 </div>
                             </div>
-                            <!--<p class="inspector-expose__warning">Por defecto se usa ip publica para la maquina central.</p>-->
                             <ul class="inspector-expose__units">
                                 <li class="inspector-expose__unit" tabindex="0" role="button">
                                     <div class="inspector-expose__unit-detail">
-                                        Maquina Central
+                                        Instancia Central
                                     </div>
                                     <div class="inspector-expose__unit-detail">
-                                        Jenkins, Git Server, SonarQube, Node.js
+                                        GitLab, Jenkins, SonarQube
                                     </div>
                                 </li>
                                 <li class="inspector-expose__unit" tabindex="0" role="button">
@@ -253,7 +243,7 @@
                                         Alumnos
                                     </div>
                                     <div class="inspector-expose__unit-detail">
-                                        Git client, Java
+                                        Git client, Java, C
                                     </div>
                                 </li>
                             </ul>
@@ -283,32 +273,6 @@
                                          class="machine-view__unplaced-unit-icon" style="border-radius: 0;
     -webkit-clip-path: none;">
                                     <span>Amazon EC2</span>
-                                    <div class="more-menu">
-                                    <span class="more-menu__toggle" role="button" tabindex="0">
-                                        <svg class="svg-icon" viewBox="0 0 16 16" style="width:16px;height:16px;">
-                                            <use xlink:href="#contextual-menu-16">
-                                            </use>
-                                        </svg>
-                                    </span>
-                                    </div>
-                                    <div class="machine-view__unplaced-unit-drag-state">
-                                    </div>
-                                </li>
-                                <li class="machine-view__unplaced-unit account" draggable="true" id="nebula">
-                                    <img src="/desplegador/svg/open-nebula.svg" alt="Open Nebula"
-                                         class="machine-view__unplaced-unit-icon" style="border-radius: 0;
-    -webkit-clip-path: none;">
-                                    <span>Open Nebula</span>
-                                    <div class="more-menu"><span class="more-menu__toggle" role="button" tabindex="0">
-                                    <svg class="svg-icon" viewBox="0 0 16 16" style="width:16px;height:16px;"><use
-                                                xlink:href="#contextual-menu-16"></use></svg></span></div>
-                                    <div class="machine-view__unplaced-unit-drag-state"></div>
-                                </li>
-                                <li class="machine-view__unplaced-unit account" draggable="true" id="ansible">
-                                    <img src="/desplegador/svg/ansible.svg" alt="Amazon"
-                                         class="machine-view__unplaced-unit-icon" style="border-radius: 0;
-    -webkit-clip-path: none;">
-                                    <span>Ansible y RADL</span>
                                     <div class="more-menu">
                                     <span class="more-menu__toggle" role="button" tabindex="0">
                                         <svg class="svg-icon" viewBox="0 0 16 16" style="width:16px;height:16px;">
@@ -433,8 +397,8 @@
                         <ul>
                             <li>Para elegir el tipo de instancia coloque su cuenta de algún servicio cloud.</li>
                             <li>Las pruebas automatizadas estan activas para los lenguajes Java, C.</li>
-                            <li>Si optas por Ansible y RADL te podras descargar la receta para el despliegue "in
-                                house"
+                            <li>Puedes descargar la receta para el despliegue "in
+                                house" usando Ansible o directamente en el Infraestructure Manager.
                             </li>
                         </ul>
                         <!--<span class="link" role="button" tabindex="0">Add machine</span>-->
@@ -603,7 +567,7 @@
         $(document).ready(function () {
             var account = {"usernameAccount": null, "passwordAccount": null, "type": null, "zone": null};
             var machine = {"centerMachine": 1, "studentMachine": 0};
-            var public = {"ipPublica": true, "puertosNew": false};
+            var port = {"ipPublica": true, "puertosNew": false};
             var central = {"usernameCentral": "adminapp", "passwordCentral": "adminapp"};
             var student = {"countStudent": 0};
             var proyect = {"countProyect": 0};
@@ -615,15 +579,7 @@
                 $("#account-amazon").removeClass('invisible');
                 $("#account").addClass('invisible');
             });
-            $("#azure").click(function (e) {
-                alert("No disponible por el momento");
-            });
-            $("#nebula").click(function (e) {
-                alert("No disponible por el momento");
-            });
-            $("#ansible").click(function (e) {
-                alert("No disponible por el momento");
-            });
+
             $("#cancel-amazon").click(function (e) {
                 $("#account").removeClass('invisible');
                 $("#account-amazon").addClass('invisible');
@@ -765,7 +721,7 @@
             $("#message-central").click(function (e) {
                 $("body").overhang({
                     type: "success",
-                    message: "Se desplegara una maquina central donde puedes tener varias cuentas de alumnos en la misma maquina o crear maquinas independientes para los alumnos",
+                    message: "Se desplegara una instancia central donde puedes tener varias cuentas de alumnos en la misma instancia o crear instancia independientes para los alumnos",
                     closeConfirm: true
                 });
             });
@@ -779,7 +735,7 @@
                 var result = verify();
                 if (result === true) {
                     var jsonData = jsonConcat(account, machine);
-                    var jsonData1 = jsonConcat(public, central);
+                    var jsonData1 = jsonConcat(port, central);
                     var jsonData2 = jsonConcat(student, instance);
                     var jsonData3 = jsonConcat(jsonData, jsonData1);
                     var jsonData4 = jsonConcat(proyect, jsonData2);

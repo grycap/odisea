@@ -87,6 +87,7 @@ class DespliegueController extends Controller
 
         $newRadl = new Radls();
         $newRadl->imuser = "website";
+        $newRadl->id_recipe = $radl->id;
         $newRadl->name = $radl->name;
         $newRadl->description = $radl->description;
         $newRadl->radl = $replace;
@@ -153,6 +154,9 @@ class DespliegueController extends Controller
     {
         $radl = Radls::where('id_deploy', $id)->first();
         $message = "";
+        if(!isset($radl)){
+            abort(404);
+        }
         if($radl->validate == "true"){
             $message = $radl->msg;
         }
@@ -171,7 +175,7 @@ class DespliegueController extends Controller
     public function detail(Request $request, $id)
     {
         $radl = Radls::where('id_deploy', $id)->first();
-        if($radl == null){
+        if(!isset($radl)){
             abort(404);
         }
         $error = true;
