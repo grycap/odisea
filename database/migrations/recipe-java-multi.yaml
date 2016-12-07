@@ -12,13 +12,16 @@ configure central (
       ipmaster: localhost
       jenkinsnode: /home/ubuntu/node-jenkins
       jenkinsnodeurl: https://master-class:master-password@bitbucket.org/phantro/node-jenkins.git
-      jenkinsserver : https://master-class:master-password@bitbucket.org/phantro/jenkins-server.git
+      jenkinsserver: https://master-class:master-password@bitbucket.org/phantro/jenkins-server.git
       jenkins: /home/ubuntu/jenkins-server
-      userproyect : proyect-user.sh
+      userproyect: proyect-user.sh
 
     tasks:
     - name: Install Git 0f485338872
       apt: name=git update_cache=yes state=latest
+
+    - name: Install Curl
+      apt: name=curl update_cache=yes state=latest
 
     - name: Update repository Node.js
       shell: 'curl -sL https://deb.nodesource.com/setup_4.x | sudo -E bash -'
@@ -53,8 +56,6 @@ configure central (
       shell: 'adduser {{ item.name }} sudo'
       with_items: admin
 
-    - name: Install Curl
-      apt: name=curl update_cache=yes state=latest
     - name: Install Openssh
       apt: name=openssh-server update_cache=yes state=latest
     - name: Install Certificates
@@ -175,7 +176,7 @@ configure central (
       changed_when: false
 
     - name: Update pluguin Jenkins and Proyect Gitlab
-      shell: 'sh {{jenkinsnode}}/ejecutar.sh'
+      shell: 'sh {{jenkinsnode}}/ejecutar.sh >> detail.txt'
 
     - copy: dest=/home/{{ item.name }}/{{ userproyect }} content='@cuentasUsuarioProyect@' mode=0755
       with_items: accounts
@@ -191,7 +192,7 @@ configure central (
 @end
 )
 
-configure mv1 (
+configure mv (
 @begin
 ---
   - vars:
@@ -264,9 +265,9 @@ configure mv1 (
 )
 
 deploy central 1
-deploy mv1 @countStudent@
+deploy mv @countStudent@
 
 contextualize (
     system central configure central step 1
-    system mv1 configure mv1 step 2
+    system mv configure mv step 2
 )

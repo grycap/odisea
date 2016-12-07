@@ -104,20 +104,20 @@ use redirection server name:i:0
                             <h1 class="user-profile-header__username">Invitado</h1>
                             <ul class="user-profile-header__counts">
                                 <li class="user-profile-header__count"><span>{{$accountCentral}}</span>
-                                    <span> Maquina central</span><span></span></li>
-                                <li class="user-profile-header__count"><span>{{$accountStudent}}</span><span> Maquinas alumnos</span></li>
+                                    <span> Instancia central</span><span></span></li>
+                                <li class="user-profile-header__count"><span>{{$accountStudent}}</span><span> Instancia alumnos</span></li>
                                 <li class="user-profile-header__count"><span>1</span><span> Receta</span></li>
                             </ul>
                         </div>
                         <div>
                             <div>
                                 <div class="user-profile__header twelve-col no-margin-bottom">
-                                    <span>Llaves de Maquinas</span><span class="user-profile__size"><span>(</span><span>{{$accountCentral + $accountStudent}}</span>
+                                    <span>Llaves de la Instancia</span><span class="user-profile__size"><span>( </span><span>{{$accountCentral + $accountStudent}}</span>
                                         <span>)</span></span></div>
                                 <ul class="user-profile__list twelve-col">
                                     <li class="user-profile__list-header twelve-col"><span
                                                 class="user-profile__list-col three-col">IP</span><span
-                                                class="user-profile__list-col four-col">Ip Privada</span><span
+                                                class="user-profile__list-col four-col">IP Privada</span><span
                                                 class="user-profile__list-col two-col">Usuario</span><span
                                                 class="user-profile__list-col one-col">Escritorio V.</span><span
                                                 class="user-profile__list-col two-col last-col">Llave .pem</span></li>
@@ -180,7 +180,7 @@ use redirection server name:i:0
                         <div>
                             <div>
                                 <div class="user-profile__header twelve-col no-margin-bottom">
-                                    <span>Servicios desplegados</span><span class="user-profile__size"><span>(</span><span>2</span>
+                                    <span>Servicios desplegados</span><span class="user-profile__size"><span>(</span><span> 2</span>
                                         <span>)</span></span></div>
                                 <ul class="user-profile__list twelve-col">
                                     <li class="user-profile__list-header twelve-col"><span
@@ -188,7 +188,7 @@ use redirection server name:i:0
                                                 class="user-profile__list-col four-col">Url</span><span
                                                 class="user-profile__list-col two-col">Usuario</span><span
                                                 class="user-profile__list-col one-col">Contraseña</span><span
-                                                class="user-profile__list-col two-col last-col">Ip maquina</span></li>
+                                                class="user-profile__list-col two-col last-col">IP Instancia</span></li>
                                     <li class="user-profile__entity user-profile__list-row twelve-col" style="background: white;border-radius: 2px;box-shadow: 0 1px 4.85px 0.15px rgba(0,0,0,0.2);">
                                         <div class="user-profile__entity-summary twelve-col no-margin-bottom"><span
                                                     class="user-profile__list-col three-col">Gitlab</span><span
@@ -262,7 +262,7 @@ use redirection server name:i:0
                                                 class="user-profile__list-col three-col">Nombre de usuario</span><span
                                                 class="user-profile__list-col four-col">Repositorio</span><span
                                                 class="user-profile__list-col two-col">Contraseña</span><span
-                                                class="user-profile__list-col one-col">User Repositorio Prueba</span><span
+                                                class="user-profile__list-col one-col">User Gitlab</span><span
                                                 class="user-profile__list-col two-col last-col">Password</span></li>
                                     <li class="user-profile__entity user-profile__list-row twelve-col" style="background: white;border-radius: 2px;box-shadow: 0 1px 4.85px 0.15px rgba(0,0,0,0.2);">
                                         <div class="user-profile__entity-summary twelve-col no-margin-bottom"><span
@@ -297,7 +297,7 @@ use redirection server name:i:0
                                                 class="user-profile__list-col four-col">Repositorio</span><span
                                                 class="user-profile__list-col two-col">Contraseña</span><span
                                                 class="user-profile__list-col one-col">Lanzamiento</span><span
-                                                class="user-profile__list-col two-col last-col">Ip maquina</span></li>
+                                                class="user-profile__list-col two-col last-col">IP instancia</span></li>
                                     @foreach($student as $key => $data)
                                         @foreach($data as $value)
                                     <li class="user-profile__entity user-profile__list-row twelve-col" style="background: white;border-radius: 2px;box-shadow: 0 1px 4.85px 0.15px rgba(0,0,0,0.2);">

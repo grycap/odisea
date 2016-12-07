@@ -17,20 +17,7 @@
  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-    function formatState($state) {
-        // posibles estados: unknown, pending, running, off, failed
-        // en el caso de la otra vers del IM tabien configured
- 
-	$res = $state;
 
-	if ($state == "failed") $res = "<span style='color:red'>failed</span>";
-	if ($state == "unknown") $res = "<span style='color:orange'>unknown</span>";
-	if ($state == "running") $res = "<span style='color:green'>configuring</span>";
-	if ($state == "configured") $res = "<span style='color:green'>" . $state . "</span>";
-
-        return $res;
-    }
-    
     function formatCloud($tokens) {
         $res = "";
         $public_clouds = array("EC2", "GCE", "Azure");
@@ -42,17 +29,7 @@
 		        return $res;
 		}
     }
-    
-    /*function formatIPs($tokens) {
-        $res = "";
-        for ($i=0;$i<10;$i++) {
-        	if (in_array('net_interface.' . $i . '.ip', array_keys($tokens))) {
-            	$res = $res . $i . " => " . str_replace("'","",$tokens['net_interface.' . $i . '.ip']) . '<br>';
-        	}
-        }
-        
-        return $res;
-    }*/
+
 function formatIPs($tokens)
 {
 	$res = "";
@@ -89,54 +66,6 @@ function formatIPs($tokens)
     	return $res;
     }
     
-    /*function formatRADL($tokens) {
-        $res = "";
-        
-        foreach ($tokens as $key => $value) {
-            if ($key != "state" && strpos($key,"net_interface") === false && strpos($key,"provider.") === false) {
-                    $res = $res . "<tr>\n";
-                    $res = $res . "<td>" . $key . "</td>\n";
-                    $res = $res . "<td>";
-                    
-                    if (strpos($key,"private_key") !== false) {
-                    	$res = $res . "<textarea id='private_key_value' name='private_key_value' style='display:none;'>" . $value . "</textarea>";
-                    	$res = $res . "<a id='export' class='download' href='#'>Download</a>";
-                    	$res = $res . <<<EOT
-<script>
-    function createDownloadLink(anchorSelector, str, fileName){
-        anchor = document.getElementById(anchorSelector)
-        if(window.navigator.msSaveOrOpenBlob) {
-            var fileData = [str];
-            blobObject = new Blob(fileData);
-            anchor.onclick = function(){
-                window.navigator.msSaveOrOpenBlob(blobObject, fileName);
-            }
-        } else {
-			var url = "data:Application/octet-stream," + encodeURIComponent(str);
-            anchor.download = fileName;
-            anchor.href = url;
-        }
-    }
-                    	
-    var dataToDownload = document.getElementById("private_key_value").value;
-    createDownloadLink("export",dataToDownload,"key.pem");
-                    	
-</script>
-EOT;
-                    	           
-                    } elseif (strpos($key,"applications") !== false) { 
-                    	$res = $res . "<pre>" . formatAplication($value) . "</pre>";
-                    } else {
-                    	$res = $res . "<pre>" . $value . "</pre>";
-                    }
-
-                    $res = $res . "</td>\n</tr>\n";
-                }
-        }
-        
-        return $res;
-    }*/
-
 function formatRADL($tokens)
 {
 	$res = "";
@@ -146,7 +75,6 @@ function formatRADL($tokens)
 
 			if (strpos($key, "private_key") !== false) {
 				$res = $value;
-				//$res = "hola";
 			}
 		}
 	}
@@ -208,14 +136,12 @@ function getOutPorts($radl) {
     }
     
     function parseRADL($radl) {
-        // TODO: esto habria que hacerlo mejor
         $ini = strpos($radl, "system");
         $ini = strpos($radl, "(", $ini)+1;
         $fin = strpos($radl, ")\n\n");
 
         $parts = explode(" and", substr($radl, $ini, $fin-$ini));
         
-        $tot = "";
         $i = 0;
         $res = array();
         while ($i < count($parts))

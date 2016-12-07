@@ -50,6 +50,7 @@ class Client
         $response = array();
         $response['error'] = true;
 
+        //para realizar pruebas de interfaz
         /*$response['resId'] = "dfd3a988-906f-11e6-a466-300000000002";
         $response['error'] = false;
         $response['status'] = 200;*/

@@ -32,7 +32,7 @@ class Configure
     public function configInstance($objJson, $request)
     {
         $countStudent = $request->input('studentMachine');
-        $maquina = "system central (
+        $instance = "system central (
   cpu.arch='$objJson->cpu' and
   cpu.count>=$objJson->count and
   memory.size>=$objJson->size and
@@ -47,12 +47,14 @@ class Configure
   disk.0.applications contains (name='$objJson->region' and preinstalled='yes')
 )\n";
         if ($countStudent != 0) {
-            $maquina .= "system mv1 (
+            $instance .= "system mv (
   cpu.arch='$objJson->cpu' and
   cpu.count>=$objJson->countStudent and
   memory.size>=$objJson->sizeStudent and
   net_interface.0.connection = 'publica' and
   net_interface.1.connection = 'privada' and
+  net_interface.0.dns_name = 'student-mv-#N#' and
+  net_interface.1.dns_name = 'student-priv-#N#' and
   disk.0.image.url = '$objJson->image' and
   disk.0.os.name='$objJson->name' and
   disk.0.os.credentials.username='$objJson->userName' and
@@ -61,7 +63,7 @@ class Configure
 )";
         }
 
-        return $maquina;
+        return $instance;
 
     }
 
@@ -71,7 +73,7 @@ class Configure
      */
     public function account($request)
     {
-        $lista = 'accounts:' . "\n";
+        $list = 'accounts:' . "\n";
         $countStudent = $request->input('countStudent');
         for ($i = 1; $i <= $countStudent; $i++) {
             $student = 'user' . $i;
@@ -82,17 +84,17 @@ class Configure
             } else {
                 $cryptPassword = substr($cryptPassword, 0, (strlen($cryptPassword)) - 1);
             }
-            $lista .= '        - { name: "' . $student['username'] . '", pw: "' . $cryptPassword . '", pass: "' . $student['password'] . '"}' . "\n";
+            $list .= '        - { name: "' . $student['username'] . '", pw: "' . $cryptPassword . '", pass: "' . $student['password'] . '"}' . "\n";
         }
-        $lista .= '      admin:' . "\n";
+        $list .= '      admin:' . "\n";
         $cryptPassword = shell_exec('python -c \'import crypt; print crypt.crypt("' . $request->input('usernameCentral') . '", "' . $request->input('passwordCentral') . '")\'');
         if ($cryptPassword == null) {
             $cryptPassword = "gu2KmqcJp0Yyo"; //guest123
         } else {
             $cryptPassword = substr($cryptPassword, 0, (strlen($cryptPassword)) - 1);
         }
-        $lista .= '        - { name: "' . $request->input('usernameCentral') . '", pw: "' . $cryptPassword . '", pass: "' . $request->input('passwordCentral') . '"}';
-        return $lista;
+        $list .= '        - { name: "' . $request->input('usernameCentral') . '", pw: "' . $cryptPassword . '", pass: "' . $request->input('passwordCentral') . '"}';
+        return $list;
     }
 
     /** Cuentas de usuario en las que se crearan las cuentas en gitlab para cada Alumno
@@ -101,16 +103,16 @@ class Configure
      */
     public function accountJson($request)
     {
-        $lista = '{';
+        $list = '{';
         $countStudent = $request->input('countStudent');
         for ($i = 1; $i <= $countStudent; $i++) {
-            $cuenta = 'user' . $i;
-            $student = $request->input($cuenta);
-            $lista .= '"' . $cuenta . '":{"nombre":"' . $student['username'] . '","password":"' . $student['password'] . '"},';
+            $account = 'user' . $i;
+            $student = $request->input($account);
+            $list .= '"' . $account . '":{"nombre":"' . $student['username'] . '","password":"' . $student['password'] . '"},';
         }
 
-        $lista = substr($lista, 0, -1) . '}';
-        return $lista;
+        $list = substr($list, 0, -1) . '}';
+        return $list;
     }
 
     /** Cuentas para git server con node.js ya no se usa por que cambiamos a gitlab
@@ -119,7 +121,7 @@ class Configure
      */
     /*public function cuentasRepositorios($request)
     {
-        $lista = "var GitServer=require('git-server'),";
+        $list = "var GitServer=require('git-server'),";
         $permission = "";
         $repositorio = "";
         $usernameCentral = $request->input('usernameCentral');
@@ -130,17 +132,17 @@ class Configure
             $student = $request->input($student);
             $username = $student['username'];
             $password = $student['password'];
-            $lista .= "$username={username:'$username',password:'$password'},";
+            $list .= "$username={username:'$username',password:'$password'},";
             $permission .= $username . "Repo={name:'$username',anonRead:!1,users:[{user:" . $username . ",permissions:['R','W']},{user:central,permissions:['R','W']}]},";
             $repositorio .= $username . "Repo,";
         }
-        $lista .= "central={username:'$usernameCentral',password:'$passwordCentral'},copia={username:'copia',password:'copia'},";
-        $lista .= $permission;
-        $lista .= "centralRepo={name:'central',anonRead:!1,users:[{user:central,permissions:['R','W']},{user:copia,permissions:['R']}]};";
-        $lista .= "_g=new GitServer([";
-        $lista .= $repositorio;
-        $lista .= "centralRepo]);";
-        return $lista;
+        $list .= "central={username:'$usernameCentral',password:'$passwordCentral'},copia={username:'copia',password:'copia'},";
+        $list .= $permission;
+        $list .= "centralRepo={name:'central',anonRead:!1,users:[{user:central,permissions:['R','W']},{user:copia,permissions:['R']}]};";
+        $list .= "_g=new GitServer([";
+        $list .= $repositorio;
+        $list .= "centralRepo]);";
+        return $list;
 
         {"practice1":{"name":"numero-natural","practice":"https://master-class:master-password@bitbucket.org/phantro/base-java.git","central":"https://master-class:master-password@bitbucket.org/phantro/base-java.git"},"practice2":{"name":"fracciones","practice":"https://master-class:master-password@bitbucket.org/phantro/base-java.git","central":"https://master-class:master-password@bitbucket.org/phantro/base-java.git"}}
 
@@ -152,7 +154,7 @@ class Configure
      */
     public function accountRepository($request)
     {
-        $lista = '{';
+        $list = '{';
         $countProyect = $request->input('countProyect');
         for ($i = 1; $i <= $countProyect; $i++) {
             $proyect = 'proyect' . $i;
@@ -160,10 +162,10 @@ class Configure
             $name = $this->nameUrl($proyect['name']);
             $practice = $proyect['practice'];
             $central = $proyect['central'];
-            $lista .= '"practice' . $i . '":{"name":"' . $name . '","practice":"' . $practice . '","central":"' . $central . '"},';
+            $list .= '"practice' . $i . '":{"name":"' . $name . '","practice":"' . $practice . '","central":"' . $central . '"},';
         }
-        $lista = substr($lista, 0, -1) . '}';
-        return $lista;
+        $list = substr($list, 0, -1) . '}';
+        return $list;
     }
 
     /** Clone repositorios de gitlab local.
@@ -178,15 +180,15 @@ class Configure
         }else{
             $entorno = 'localhost';
         }
-        $lista = '#!/bin/bash\n ';
+        $list = '#!/bin/bash\n ';
         $countProyect = $request->input('countProyect');
         for ($i = 1; $i <= $countProyect; $i++) {
             $proyect = 'proyect' . $i;
             $proyect = $request->input($proyect);
             $name = $this->nameUrl($proyect['name']);
-            $lista .= 'git clone http://{{ item.name }}:{{ item.pass }}@' . $entorno . '/{{ item.name }}/' . $name . '.git /home/{{ item.name }}/'.$name.'\n ';
+            $list .= 'git clone http://{{ item.name }}:{{ item.pass }}@' . $entorno . '/{{ item.name }}/' . $name . '.git /home/{{ item.name }}/'.$name.'\n ';
         }
-        return $lista;
+        return $list;
     }
 
     /** Crear un Json con las caracteristicas que a colocado en la web
@@ -228,7 +230,7 @@ class Configure
             "name": "linux",
             "userName": "ubuntu",
             "version": "14.04",
-            "region": "aws.region.us-east-1"
+            "region": "aws.region.'.$region.'"
         }';
 
         $objJson = json_decode($data);
@@ -312,7 +314,7 @@ class Configure
         // Tranformamos todo a minusculas
 
         $url = strtolower($url);
-        $url = $this->quitar_espacios($url);
+        $url = $this->deleteSpace($url);
 
         //Rememplazamos caracteres especiales latinos
 
@@ -339,13 +341,13 @@ class Configure
 
     }
 
-    public function quitar_espacios($texto)
+    public function deleteSpace($text)
     {
 
-        if ($texto && is_string($texto)) {
+        if ($text && is_string($text)) {
 
             //Convierte el string en un array
-            $palabras = explode(' ', $texto);
+            $palabras = explode(' ', $text);
             $palabras_ok = [];
 
             foreach ($palabras as $palabra) {
