@@ -18,6 +18,9 @@ configure central (
     - name: Install Git 0f485338872
       apt: name=git update_cache=yes state=latest
 
+    - name: Install unzip
+      apt: pkg=unzip state=latest update_cache=yes
+
     - name: Install Curl
       apt: name=curl update_cache=yes state=latest
 
@@ -78,7 +81,7 @@ configure central (
           repo: PrimaryRepo
 
     - copy: dest={{ jenkinsnode }}/user.json content='@cuentasUsuarioJson@'
-
+    - copy: dest={{ jenkinsnode }}/admin.json content='@cuentasAdminJson@'
     - copy: dest={{ jenkinsnode }}/repository.json content='@cuentasGit@'
 
     - name: Add repo for java 8 0f168424895
@@ -100,9 +103,6 @@ configure central (
         -
           dest: "{{ jenkins }}"
           repo: PrimaryRepo
-
-    - name: Install unzip
-      apt: pkg=unzip state=latest update_cache=yes
 
     - name: Run Jenkins
       shell: '{{jenkins}}/jenkins.sh start'

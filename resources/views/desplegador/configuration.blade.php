@@ -137,7 +137,7 @@
                                 <span class="deployment-summary-change-item-classic__change" style="width: 38%; margin-left: 10px;"><img
                                             src="/desplegador/svg/icon-git.svg" style="margin-top: 10px"
                                             alt="" class="deployment-summary-change-item-classic__icon">
-                                    <span><input type="text" value="https://master-class:master-password@bitbucket.org/phantro/base-java.git" placeholder="https://master-class:master-password@bitbucket.org/phantro/base-java.git" class="constraints__input" id="repository-practice-li-practice-1" minlength="10" maxlength="100" name="repository-practice-li-practice-1" required="" style="
+                                    <span><input type="text" value="https://github.com/franz-miranda/base-java.git" placeholder="https://github.com/franz-miranda/base-java.git" class="constraints__input" id="repository-practice-li-practice-1" minlength="10" maxlength="100" name="repository-practice-li-practice-1" required="" style="
     margin-left: 0px;
     margin-right: 0px;
     width: 90%;
@@ -147,7 +147,7 @@
                                 <span class="deployment-summary-change-item-classic__change" style="width: 38%; margin-left: 10px;"><img
                                             src="/desplegador/svg/icon-git.svg"
                                             alt="" class="deployment-summary-change-item-classic__icon" style="margin-top: 10px">
-                                    <span><input type="text" class="constraints__input" id="repository-test-li-practice-1" value="https://master-class:master-password@bitbucket.org/phantro/base-java.git" placeholder="https://master-class:master-password@bitbucket.org/phantro/base-java.git" minlength="10" maxlength="100" name="repository-test-li-practice-1" required="" style="
+                                    <span><input type="text" class="constraints__input" id="repository-test-li-practice-1" value="https://github.com/franz-miranda/test-java.git" placeholder="https://github.com/franz-miranda/test-java.git" minlength="10" maxlength="100" name="repository-test-li-practice-1" required="" style="
     margin-left: 0px;
     margin-right: 0px;
     width: 90%;
@@ -398,7 +398,7 @@
                             <li>Para elegir el tipo de instancia coloque su cuenta de algún servicio cloud.</li>
                             <li>Las pruebas automatizadas estan activas para los lenguajes Java, C.</li>
                             <li>Puedes descargar la receta para el despliegue "in
-                                house" usando Ansible o directamente en el Infraestructure Manager.
+                                house" usando Ansible o directamente en el Infrastructure Manager.
                             </li>
                         </ul>
                         <!--<span class="link" role="button" tabindex="0">Add machine</span>-->
@@ -573,7 +573,7 @@
             var proyect = {"countProyect": 0};
             var instance = {"center": null, "student": null};
             var language = {"language":"java"};
-            var repository = {"java":{"name":"https://master-class:master-password@bitbucket.org/phantro/base-java.git","central":"https://master-class:master-password@bitbucket.org/phantro/base-java.git"},"c":{"name":"https://master-class:master-password@bitbucket.org/phantro/completo-prueba.git","central":"https://master-class:master-password@bitbucket.org/phantro/prueba-unitaria-c.git"}};
+            var repository = {"java":{"name":"https://github.com/franz-miranda/base-java.git","central":"https://github.com/franz-miranda/test-java.git"},"c":{"name":"https://master-class:master-password@bitbucket.org/phantro/completo-prueba.git","central":"https://master-class:master-password@bitbucket.org/phantro/prueba-unitaria-c.git"}};
 
             $("#amazon").click(function (e) {
                 $("#account-amazon").removeClass('invisible');

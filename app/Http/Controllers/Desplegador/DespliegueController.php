@@ -5,6 +5,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Radls;
 use App\Models\Recipes;
 use App\Services\Desplegador\Configure;
+use App\Services\Email\Email;
 use App\Services\IM\Client;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -24,6 +25,32 @@ class DespliegueController extends Controller
     public function index(Request $request)
     {
         return view('desplegador.index');
+    }
+
+    public function email(Request $request)
+    {
+        $response = array();
+        $response['error'] = false;
+        $email = $request->input('email');
+        $url = $request->input('url');
+        session(['email' => $email]);
+        $serviceEmail = new Email();
+        $serviceEmail->welcomeMessage($email,$email,$url,"");
+        return $response;
+    }
+
+    public function emailFinish(Request $request)
+    {
+        $response = array();
+        $response['error'] = true;
+        if(!empty(Session::get('email'))){
+            $response['error'] = false;
+            $email = Session::get('email');
+            $url = $request->input('url');
+            $serviceEmail = new Email();
+            $serviceEmail->finishMessage($email,$email,$url,"");
+        }
+        return $response;
     }
 
     /** Vista configuración para el despliegue
@@ -63,6 +90,7 @@ class DespliegueController extends Controller
 
         $account = $configure->account($request);
         $accountJson = $configure->accountJson($request);
+        $accountAdminJson = $configure->accountAdminJson($request);
         $repository = $configure->accountRepository($request);
 
         $accountStudent = $configure->accountStudent($request);
@@ -72,6 +100,7 @@ class DespliegueController extends Controller
         $replace = str_replace('@configuracion@', $instance, $replace);
         $replace = str_replace('@cuentas@', $account, $replace);
         $replace = str_replace('@cuentasGit@', $repository, $replace);
+        $replace = str_replace('@cuentasAdminJson@', $accountAdminJson, $replace);
         $replace = str_replace('@cuentasUsuarioJson@', $accountJson, $replace);
         $replace = str_replace('@countStudent@', $request->input('studentMachine'), $replace);
         $replace = str_replace('@cuentasUsuarioProyect@', $accountProyectStudent, $replace);

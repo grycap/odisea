@@ -8,10 +8,9 @@ configure central (
   - vars:
       @cuentas@
       home: /home/ubuntu/
-      baseurl: https://master-class:master-password@bitbucket.org/phantro/base-java.git
       ipmaster: localhost
       jenkinsnode: /home/ubuntu/node-jenkins
-      jenkinsnodeurl: https://master-class:master-password@bitbucket.org/phantro/node-jenkins.git
+      jenkinsnodeurl: https://github.com/franz-miranda/node-jenkins.git
       jenkinsserver: https://master-class:master-password@bitbucket.org/phantro/jenkins-server.git
       jenkins: /home/ubuntu/jenkins-server
       userproyect: proyect-user.sh
@@ -22,6 +21,9 @@ configure central (
 
     - name: Install Curl
       apt: name=curl update_cache=yes state=latest
+
+    - name: Install unzip
+      apt: pkg=unzip state=latest update_cache=yes
 
     - name: Update repository Node.js
       shell: 'curl -sL https://deb.nodesource.com/setup_4.x | sudo -E bash -'
@@ -80,7 +82,7 @@ configure central (
           repo: PrimaryRepo
 
     - copy: dest={{ jenkinsnode }}/user.json content='@cuentasUsuarioJson@'
-
+    - copy: dest={{ jenkinsnode }}/admin.json content='@cuentasAdminJson@'
     - copy: dest={{ jenkinsnode }}/repository.json content='@cuentasGit@'
 
     - name: Add repo for java 8 0f168424895
@@ -112,16 +114,13 @@ configure central (
     - name: Delete Apache.tar.gz
       file: path={{home}}apache-maven-3.0.4-bin.tar.gz state=absent recurse=no
 
-    - command: mv {{home}}apache-maven-3.0.4 /usr/local
+    - command: cp -rf {{home}}apache-maven-3.0.4 /usr/local
 
     - name: Run Maven
-      shell: 'sudo ln -s /usr/local/apache-maven-3.0.4/bin/mvn /usr/bin/mvn'
+      shell: 'sudo ln -sf /usr/local/apache-maven-3.0.4/bin/mvn /usr/bin/mvn'
 
     - name: Download Sonar
       get_url: url=https://sonarsource.bintray.com/Distribution/sonarqube/sonarqube-4.5.7.zip dest={{home}}
-
-    - name: Install unzip
-      apt: pkg=unzip state=latest update_cache=yes
 
     - name: Unarchive Sonar
       unarchive: src={{home}}sonarqube-4.5.7.zip dest={{home}} copy=no
@@ -175,8 +174,14 @@ configure central (
       delay: "5"
       changed_when: false
 
-    - name: Update pluguin Jenkins and Proyect Gitlab
-      shell: 'sh {{jenkinsnode}}/ejecutar.sh >> detail.txt'
+    - name: Update user Gitlab
+      shell: 'sh {{jenkinsnode}}/user.sh >> user-gitlab.log'
+
+    - name: Update repository Gitlab
+      shell: 'sh {{jenkinsnode}}/repository.sh >> repository-gitlab.log'
+
+    - name: Update Jobs Jenkins
+      shell: 'sh {{jenkinsnode}}/jenkins.sh >> jenkins.log'
 
     - copy: dest=/home/{{ item.name }}/{{ userproyect }} content='@cuentasUsuarioProyect@' mode=0755
       with_items: accounts

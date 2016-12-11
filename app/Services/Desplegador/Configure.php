@@ -115,6 +115,14 @@ class Configure
         return $list;
     }
 
+    public function accountAdminJson($request)
+    {
+        $admin = $request->input('usernameCentral');
+        $password = $request->input('passwordCentral');
+
+        $list = '{"name":"' . $admin . '","password":"'.$password.'"}';
+        return $list;
+    }
     /** Cuentas para git server con node.js ya no se usa por que cambiamos a gitlab
      * @param $request
      * @return string

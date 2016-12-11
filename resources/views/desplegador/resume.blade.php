@@ -72,6 +72,12 @@
                                                                                                          class="button--inline-neutral download"
                                                                                                          href='#'>Receta
                         RADL</a>
+                    <div class="deployment-bar__deploy">
+                        <button class="button--inline-deployment" type="button" id="notifyEmail" style="
+    background-color: #f57a1f;
+">Notificación via Email
+                        </button>
+                    </div>
                     <div class="deployment-bar__notification" style="opacity: 1"> Pulsa el Boton al terminar el
                         despliegue
                     </div>
@@ -297,7 +303,24 @@
                 </div>
             </div> <!-- /container -->
         </div>
+        <div id="loading" class="centered-column invisible">
+            <img style="width:35px; height:30px;" src="/desplegador/img/BoldMedia-flat-logo.png">
+            <div class="panel">
+                <div id="loading-message-text" class="header">Te notificaremos a tu email al terminar el despliegue</div>
+                <input type="text" class="constraints__input" id="email" placeholder="hola@portafolio-virtual.com"
+                       minlength="5" maxlength="30"
+                       name="key" required>
+                <div class="button-row button-row--multiple button-row--count-2">
+                    <button class="button--base" type="button" id="cancel-email" style="border: 1px solid #cdcdcd;">
+                        Cancel
+                    </button>
+                    <button class="button--neutral" type="button" id="acept-email" style="background-color: #f57a1f;color: white;">Aceptar
+                    </button>
+                </div>
+            </div>
+        </div>
     </div>
+
     <script>
         $(document).ready(function () {
             var url = "";
@@ -306,6 +329,85 @@
                     location.href = url;
                 }
             });
+
+
+            $("#notifyEmail").click(function (e) {
+                var popup = $("#loading");
+                popup.removeClass('invisible');
+            });
+
+
+            $("#cancel-email").click(function (e) {
+                var popup = $("#loading");
+                popup.addClass('invisible');
+            });
+
+            function validateEmail(email) {
+                var re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+                return re.test(email);
+            }
+
+            function validate() {
+                var email = $("#email");
+                email.text("");
+                var emailValue = email.val();
+                if (validateEmail(emailValue)) {
+                    email.text(emailValue + " is valid :)");
+                    email.css("color", "green");
+                    return true;
+                } else {
+                    email.text(emailValue + " is not valid :(");
+                    email.css("color", "red");
+                    $("body").overhang({
+                        type: "error",
+                        message: "El correo electronico no tiene el formato correcto"
+                    });
+                }
+                return false;
+            }
+
+
+            $("#acept-email").click(function (e) {
+                if(validate()){
+                    $( "#acept-email" ).prop( "disabled", true );
+                    var email = $("#email").val();
+                    $.ajax({
+                        type: 'post',
+                        url: "/email",
+                        dataType: 'json',
+                        data: {"email":email,"url":document.URL},
+                        success: function (data) {
+                            console.log('Recibido:', data);
+                            $("body").overhang({
+                                type: "success",
+                                message: "Email Enviado"
+                            });
+                            var popup = $("#loading");
+                            popup.addClass('invisible');
+                            $( "#acept-email" ).prop( "disabled", false );
+                        },
+                        error: function (data) {
+                            alert("Intente nuevamente");
+                            $( "#acept-email" ).prop( "disabled", false );
+                        }
+                    });
+                }
+            });
+
+            function sendEmailFinish(url) {
+                    $.ajax({
+                        type: 'post',
+                        url: "/emailFinish",
+                        dataType: 'json',
+                        data: {"url":url},
+                        success: function (data) {
+                            console.log('Recibido:', data);
+                        },
+                        error: function (data) {
+                            console.log('Error:', data);
+                        }
+                    });
+            }
 
             $("#back").click(function (e) {
                 location.href = "/";
@@ -365,6 +467,11 @@
                                 message: "Termino el despliegue puedes acceder al detalle y a las cuentas de usuario",
                                 closeConfirm: true
                             });
+                            var title = articles[0][0];
+                            var desc = 'Franz R. Miranda';
+                            var urli = articles[0][1];
+                            notifyBrowser(title, desc, urli);
+                            sendEmailFinish(url);
                             myStopFunction();
                         } else {
                             $("#circle-" + estado[x]).attr("style", "animation: serviceBlockHaloSelected 1s alternate;");
@@ -395,5 +502,42 @@
         }
         var dataToDownload = document.getElementById("receta").value;
         createDownloadLink("export", dataToDownload, "receta.radl");
+    </script>
+
+    <script>
+        var articles = [
+            ["El despliegue se ha realizado con exito", document.URL]
+        ];
+        document.addEventListener('DOMContentLoaded', function () {
+
+            if (Notification.permission !== "granted") {
+                Notification.requestPermission();
+            }
+        });
+
+        function notifyBrowser(title, desc, url) {
+            if (!Notification) {
+                console.log('Desktop notifications not available in your browser..');
+                return;
+            }
+            if (Notification.permission !== "granted") {
+                Notification.requestPermission();
+            } else {
+                var notification = new Notification(title, {
+                    icon: 'https://lh3.googleusercontent.com/-aCFiK4baXX4/VjmGJojsQ_I/AAAAAAAANJg/h-sLVX1M5zA/s48-Ic42/eggsmall.png',
+                    body: desc,
+                });
+
+                // Remove the notification from Notification Center when clicked.
+                notification.onclick = function () {
+                    window.open(url);
+                };
+
+                // Callback function when the notification is closed.
+                notification.onclose = function () {
+                    console.log('Notification closed');
+                };
+            }
+        }
     </script>
 @stop
