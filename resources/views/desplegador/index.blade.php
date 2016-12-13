@@ -121,7 +121,7 @@
             </div>
 
 
-            <div class="row strip-white">
+            <div id="detail" class="row strip-white" style="background-color: rgb(248, 248, 248);">
                 <div class="inner-wrapper">
                     <div class="twelve-col">
                         <h2 class="row-title">Modo de despliegue de instancias</h2>
@@ -157,7 +157,7 @@
 
             </div>
 
-            <div class="row row-grey row--border-bottom row--bigdata">
+            <div id="jenkins" class="row row-grey row--border-bottom row--bigdata">
                 <div class="inner-wrapper">
                     <div class="four-col prepend-one append-one">
                         <img src="https://jenkins.io/images/226px-Jenkins_logo.svg.png" alt="Jenkins">
@@ -169,9 +169,91 @@
                             de versiones cada cierto tiempo, permite realizar la evaluacion del código realizado por
                             el Alumno.
                         </p>
-                        <p><a href="/begin">Quieres comenzar a usar este servicio&nbsp;›</a></p>
+                        <p><a href="/begin">Quieres comenzar a usar este servicio&nbsp;›››</a></p>
                     </div>
                 </div>
+            </div>
+
+            <div class="row" id="demo" style="background-color: rgb(248, 248, 248);">
+                <div class="inner-wrapper">
+                    <div class="eight-col">
+                        <h2>Videos</h2>
+                    </div>
+                    <div class="videos-feed twelve-col"><div class="four-col ">
+                            <div class="video-container">
+                                <iframe width="329" height="185" src="https://www.youtube.com/embed/Boeu_ISltqI" frameborder="0" allowfullscreen></iframe>
+                            </div>
+                            <h3>Despliegue del Portafolio Virtual</h3>
+                        </div>
+                        <div class="four-col ">
+                            <div class="video-container">
+                                <iframe width="329" height="185" src="https://www.youtube.com/embed/RohFKsU6Zkg" frameborder="0" allowfullscreen></iframe>
+                            </div>
+                            <h3>Lenguaje Java</h3>
+                        </div>
+                        <div class="four-col last-col">
+                            <div class="video-container">
+                                <iframe width="329" height="185" src="https://www.youtube.com/embed/Mf95SLhBWo0" frameborder="0" allowfullscreen></iframe>
+                            </div>
+                            <h3>Lenguaje C</h3>
+                        </div></div>
+                </div>
+            </div>
+            <div id="gitlab" class="row strip-dark">
+                <div class="inner-wrapper">
+                    <div class="six-col">
+                        <h2>GitLab</h2>
+                        <p class="intro">GitLab,es un repositorio de gestión de proyectos dotado de interfaz web. Nos permite llevar a cabo un seguimiento del estado actual y del histórico de los proyectos, ver los cambios y modificaciones producidas en el tiempo, además de gráficos.</p>
+                        <p><a href="/begin">Comenzar&nbsp;›››</a></p>
+                    </div>
+                    <div class="six-col last-col">
+                        <img src="/desplegador/svg/icon-gitlab.svg" alt="gitlab" style="height: 250px;width: 250px; margin-left: 20%">
+                    </div>
+                </div>
+            </div>
+
+            <div class="footer-wrapper strip-white" style="background-color: rgb(248, 248, 248);">
+                <footer class="global clearfix">
+                    <p class="top-link">
+                        <a href="#">Subir</a>
+                    </p>
+                    <nav role="navigation" class="inner-wrapper">
+                        <div class="row" style="background-color: rgb(248, 248, 248);">
+                            <div class="seven-col">
+                                <ul class="no-bullets seven-col">
+                                    <li>
+                                        <a href="#detail">
+                                            Como Funciona
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="#jenkins">
+                                            Jenkins
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="#demo">
+                                            Demos
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="#gitlab">
+                                            Gitlab
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="/begin">
+                                            Comenzar
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="five-col last-col">
+                                <div class="five-col"><a href="/begin" class="button--inline-neutral right start-modelling-button">Comenzar</a></div>
+                            </div>
+                        </div>
+                    </nav>
+                </footer>
             </div>
 
     <!-->

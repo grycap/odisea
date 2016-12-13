@@ -11,7 +11,7 @@ configure central (
       ipmaster: localhost
       jenkinsnode: /home/ubuntu/node-jenkins
       jenkinsnodeurl: https://github.com/franz-miranda/node-jenkins.git
-      jenkinsserver: https://master-class:master-password@bitbucket.org/phantro/jenkins-server.git
+      jenkinsserver: https://github.com/franz-miranda/jenkins-server.git
       jenkins: /home/ubuntu/jenkins-server
       userproyect: proyect-user.sh
 
@@ -92,7 +92,7 @@ configure central (
       apt: name=openjdk-8-jdk state=latest update-cache=yes force=yes
       sudo: yes
 
-    - lineinfile: dest=/etc/bash.bashrc regexp="export JAVA_HOME=/usr/lib/jvm/java-8-oracle/" line="export JAVA_HOME=/usr/lib/jvm/java-8-oracle/" create=yes
+    - lineinfile: dest=/etc/bash.bashrc regexp="export JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64" line="export JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64" create=yes
 
     - name: App | Cloning repos + submodules + jenkins 0f452458482
       git: repo={{jenkinsserver}}
@@ -239,7 +239,7 @@ configure mv (
       apt: name=openjdk-8-jdk state=latest update-cache=yes force=yes
       sudo: yes
 
-    - lineinfile: dest=/etc/bash.bashrc regexp="export JAVA_HOME=/usr/lib/jvm/java-8-oracle/" line="export JAVA_HOME=/usr/lib/jvm/java-8-oracle/" create=yes
+    - lineinfile: dest=/etc/bash.bashrc regexp="export JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64" line="export JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64" create=yes
 
     - copy: dest=/home/{{ item.name }}/{{ userproyect }} content='@cuentasUsuarioProyect@' mode=0755
       with_items: accounts

@@ -35,7 +35,7 @@
     <nav role="navigation" class="nav-primary nav-right" id="nav">
 
     <span class="accessibility-aid">
-        <a accesskey="s" href="#">Jump to content</a>
+        <a accesskey="s" href="#">Subir</a>
     </span>
 
         <div class="logo">
@@ -47,22 +47,27 @@
 
         <ul>
             <li>
-                <a class="" href="#">
+                <a href="#detail">
                     Como Funciona
                 </a>
             </li>
             <li>
-                <a href="#" target="_blank">
-                    Documento
+                <a href="#jenkins">
+                    Jenkins
                 </a>
             </li>
             <li>
-                <a class="" href="#">
+                <a href="#demo">
                     Demos
                 </a>
             </li>
             <li>
-                <a class="" href="#">
+                <a href="#gitlab">
+                    Gitlab
+                </a>
+            </li>
+            <li>
+                <a href="/begin">
                     Comenzar
                 </a>
             </li>

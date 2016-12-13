@@ -9,8 +9,8 @@ configure central (
       @cuentas@
       ipmaster: localhost
       jenkinsnode: /home/ubuntu/node-jenkins
-      jenkinsnodeurl: https://master-class:master-password@bitbucket.org/phantro/node-jenkins-c.git
-      jenkinsserver: https://master-class:master-password@bitbucket.org/phantro/jenkins-server.git
+      jenkinsnodeurl: https://github.com/franz-miranda/node-jenkins-c.git
+      jenkinsserver: https://github.com/franz-miranda/jenkins-server.git
       jenkins: /home/ubuntu/jenkins-server
       userproyect: proyect-user.sh
 
@@ -91,7 +91,7 @@ configure central (
       apt: name=openjdk-8-jdk state=latest update-cache=yes force=yes
       sudo: yes
 
-    - lineinfile: dest=/etc/bash.bashrc regexp="export JAVA_HOME=/usr/lib/jvm/java-8-oracle/" line="export JAVA_HOME=/usr/lib/jvm/java-8-oracle/" create=yes
+    - lineinfile: dest=/etc/bash.bashrc regexp="export JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64" line="export JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64" create=yes
 
     - name: App | Cloning repos + submodules + jenkins 0f452458482
       git: repo={{jenkinsserver}}
@@ -137,8 +137,14 @@ configure central (
       delay: "5"
       changed_when: false
 
-    - name: Update pluguin Jenkins and Proyect Gitlab
-      shell: 'sh {{jenkinsnode}}/ejecutar.sh >> detail.txt'
+    - name: Update user Gitlab
+      shell: 'sh {{jenkinsnode}}/user.sh >> user-gitlab.log'
+
+    - name: Update repository Gitlab
+      shell: 'sh {{jenkinsnode}}/repository.sh >> repository-gitlab.log'
+
+    - name: Update Jobs Jenkins
+      shell: 'sh {{jenkinsnode}}/jenkins.sh >> jenkins.log'
 
     - copy: dest=/home/{{ item.name }}/{{ userproyect }} content='@cuentasUsuarioProyect@' mode=0755
       with_items: accounts

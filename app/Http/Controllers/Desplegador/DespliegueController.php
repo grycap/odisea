@@ -255,7 +255,7 @@ class DespliegueController extends Controller
 
         return view('desplegador.detail')->with(['error' => $error,'central'=>$central,
             'student'=>$student,'created'=>$created,'accountStudent' =>$accountStudent,
-            'accountCentral'=>$accountCentral, 'dataIP' =>$dataIP]);
+            'accountCentral'=>$accountCentral, 'dataIP' =>$dataIP, 'language' => $radl->language]);
     }
 
 }

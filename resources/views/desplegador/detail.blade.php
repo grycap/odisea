@@ -32,16 +32,17 @@
         <ul class="header-banner__list--right">
             <li id="header-search-container" class="header-banner__list-item header-banner__list-item--no-padding">
                 <div class="header-search">
-                    <span tabindex="0" role="button" class="header-search__store"><span
+                    <a href="/#demo" target="_blank"><span tabindex="0" role="button" class="header-search__store"><span
                                 class="header-search__store-icon"><svg
                                     class="svg-icon" viewBox="0 0 20 20" style="width:20px;height:20px;"><use
                                         xlink:href="#search_16"></use></svg></span><span
-                                class="header-search__store-label">Información</span></span>
+                                class="header-search__store-label">Información</span></span></a>
+                    <a href="http://docs.aws.amazon.com/es_es/AWSSimpleQueueService/latest/SQSGettingStartedGuide/AWSCredentials.html" target="_blank">
                     <span tabindex="0" role="button" class="header-search__store" style="margin-left:10px"><span
                                 class="header-search__store-icon"><svg
                                     class="svg-icon" viewBox="0 0 20 20" style="width:20px;height:20px;"><use
                                         xlink:href="#store_22"></use></svg></span><span
-                                class="header-search__store-label">Crear Cuentas Cloud</span></span>
+                                class="header-search__store-label">Crear Cuentas Cloud</span></span></a>
                 </div>
             </li>
             <li id="profile-link-container" class="header-banner__list-item header-banner__list-item--logout"></li>
@@ -194,7 +195,7 @@ use redirection server name:i:0
                                                     class="user-profile__list-col three-col">Gitlab</span><span
                                                     class="user-profile__list-col four-col"><a href="http://{{$dataIP[0]['ipPublic']}}" target="_blank">http://{{$dataIP[0]['ipPublic']}}</a></span><span
                                                     class="user-profile__list-col two-col">root</span><span
-                                                    class="user-profile__list-col one-col">12345678</span><span
+                                                    class="user-profile__list-col one-col">{{$central->password}}</span><span
                                                     class="user-profile__list-col two-col last-col">{{$dataIP[0]['ipPublic']}}</span></div>
                                         <div class="user-profile__entity-details twelve-col" style="height:0px;opacity:0;">
                                             <div class="twelve-col no-margin-bottom">
@@ -213,8 +214,8 @@ use redirection server name:i:0
                                         <div class="user-profile__entity-summary twelve-col no-margin-bottom"><span
                                                     class="user-profile__list-col three-col">Jenkins</span><span
                                                     class="user-profile__list-col four-col"><a href="http://{{$dataIP[0]['ipPublic']}}:8089" target="_blank">http://{{$dataIP[0]['ipPublic']}}:8089</a></span><span
-                                                    class="user-profile__list-col two-col">adminapp</span><span
-                                                    class="user-profile__list-col one-col">adminapp</span><span
+                                                    class="user-profile__list-col two-col">{{$central->username}}</span><span
+                                                    class="user-profile__list-col one-col">{{$central->password}}</span><span
                                                     class="user-profile__list-col two-col last-col">{{$dataIP[0]['ipPublic']}}</span></div>
                                         <div class="user-profile__entity-details twelve-col" style="height:0px;opacity:0;">
                                             <div class="twelve-col no-margin-bottom">
@@ -229,6 +230,7 @@ use redirection server name:i:0
                                             </div>
                                         </div>
                                     </li>
+                                    @if($language == 'java')
                                     <li class="user-profile__entity user-profile__list-row twelve-col" style="background: white;border-radius: 2px;box-shadow: 0 1px 4.85px 0.15px rgba(0,0,0,0.2);">
                                         <div class="user-profile__entity-summary twelve-col no-margin-bottom"><span
                                                     class="user-profile__list-col three-col">SonarQube</span><span
@@ -249,6 +251,7 @@ use redirection server name:i:0
                                             </div>
                                         </div>
                                     </li>
+                                    @endif
                                 </ul>
                             </div>
                         </div>
@@ -270,7 +273,7 @@ use redirection server name:i:0
                                                     class="user-profile__list-col four-col"><a href="http://{{$dataIP[0]['ipPublic']}}/users/sign_in" target="_blank">http://{{$dataIP[0]['ipPublic']}}/users/sign_in</a></span><span
                                                     class="user-profile__list-col two-col">{{$central->password}}</span><span
                                                     class="user-profile__list-col one-col">root</span><span
-                                                    class="user-profile__list-col two-col last-col">12345678</span></div>
+                                                    class="user-profile__list-col two-col last-col">{{$central->password}}</span></div>
                                         <div class="user-profile__entity-details twelve-col" style="height:0px;opacity:0;">
                                             <div class="twelve-col no-margin-bottom">
                                                 <div class="user-profile__entity-details-header twelve-col">

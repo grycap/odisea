@@ -42,16 +42,17 @@
                         </button>
                         <input type="search" name="query" class="header-search__input" placeholder="Información">
                     </form>-->
-                    <span tabindex="0" role="button" class="header-search__store"><span
+                    <a href="/#demo" target="_blank"><span tabindex="0" role="button" class="header-search__store"><span
                                 class="header-search__store-icon"><svg
                                     class="svg-icon" viewBox="0 0 20 20" style="width:20px;height:20px;"><use
                                         xlink:href="#search_16"></use></svg></span><span
-                                class="header-search__store-label">Información</span></span>
-                    <span tabindex="0" role="button" class="header-search__store" style="margin-left:10px"><span
+                                class="header-search__store-label">Información</span></span></a>
+                    <a href="http://docs.aws.amazon.com/es_es/AWSSimpleQueueService/latest/SQSGettingStartedGuide/AWSCredentials.html" target="_blank">
+                        <span tabindex="0" role="button" class="header-search__store" style="margin-left:10px"><span
                                 class="header-search__store-icon"><svg
                                     class="svg-icon" viewBox="0 0 20 20" style="width:20px;height:20px;"><use
                                         xlink:href="#store_22"></use></svg></span><span
-                                class="header-search__store-label">Crear Cuentas Cloud</span></span>
+                                class="header-search__store-label">Crear Cuentas Cloud</span></span></a>
                 </div>
             </li>
             <li id="profile-link-container" class="header-banner__list-item header-banner__list-item--logout"></li>
@@ -573,7 +574,7 @@
             var proyect = {"countProyect": 0};
             var instance = {"center": null, "student": null};
             var language = {"language":"java"};
-            var repository = {"java":{"name":"https://github.com/franz-miranda/base-java.git","central":"https://github.com/franz-miranda/test-java.git"},"c":{"name":"https://master-class:master-password@bitbucket.org/phantro/completo-prueba.git","central":"https://master-class:master-password@bitbucket.org/phantro/prueba-unitaria-c.git"}};
+            var repository = {"java":{"name":"https://github.com/franz-miranda/base-java.git","central":"https://github.com/franz-miranda/test-java.git"},"c":{"name":"https://github.com/franz-miranda/base-c.git","central":"https://github.com/franz-miranda/test-c.git"}};
 
             $("#amazon").click(function (e) {
                 $("#account-amazon").removeClass('invisible');
