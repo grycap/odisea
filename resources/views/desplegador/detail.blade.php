@@ -193,7 +193,7 @@ use redirection server name:i:0
                                     <li class="user-profile__entity user-profile__list-row twelve-col" style="background: white;border-radius: 2px;box-shadow: 0 1px 4.85px 0.15px rgba(0,0,0,0.2);">
                                         <div class="user-profile__entity-summary twelve-col no-margin-bottom"><span
                                                     class="user-profile__list-col three-col">Gitlab</span><span
-                                                    class="user-profile__list-col four-col"><a href="http://{{$dataIP[0]['ipPublic']}}" target="_blank">http://{{$dataIP[0]['ipPublic']}}</a></span><span
+                                                    class="user-profile__list-col four-col"><a href="http://{{$dataIP[0]['ipPublic']}}/users/sign_in" target="_blank">http://{{$dataIP[0]['ipPublic']}}/users/sign_in</a></span><span
                                                     class="user-profile__list-col two-col">root</span><span
                                                     class="user-profile__list-col one-col">{{$central->password}}</span><span
                                                     class="user-profile__list-col two-col last-col">{{$dataIP[0]['ipPublic']}}</span></div>
